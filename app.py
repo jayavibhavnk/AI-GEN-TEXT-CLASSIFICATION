@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
 
+key = st.secrets.HF_KEY
+
 # Set the title and heading
 st.title("Check if the text is AI generated")
 st.header("Enter text and select the model")
@@ -21,7 +23,7 @@ def is_ai_generated(text, model):
                   "MPNet": "mpnet-classification-10ksamples"}
     model_name = model_dict[model]
     API_URL = "https://api-inference.huggingface.co/models/jayavibhav/{}".format(model_name)
-    headers = {"Authorization": "Bearer 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"}
+    headers = {"Authorization": "Bearer {}".format(key)}
 
     def query(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
@@ -34,18 +36,18 @@ def is_ai_generated(text, model):
     yes_ai = output[0][0]['score'] if output[0][0]['label'] == 'POSITIVE' else output[0][1]['score']
 
     if yes_ai>not_ai:
-        return True
+        return True, yes_ai
     else:
-        return False
+        return False, yes_ai
 
 # Check if the text is AI-generated when the user clicks the button
 if st.button("Check"):
     if user_text:
-        result = is_ai_generated(user_text, model_option)
+        result, ai = is_ai_generated(user_text, model_option)
         if result:
-            st.error("This text is AI-generated.")
+            st.error("This text is AI-generated, AI percentage " + str(ai))
         else:
-            st.success("This text is not AI-generated.")
+            st.success("This text is not AI-generated, AI percentage " + str(ai))
     else:
         st.warning("Please enter some text to check.")
 
