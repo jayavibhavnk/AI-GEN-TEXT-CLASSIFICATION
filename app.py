@@ -63,5 +63,3 @@ st.write("\n")
 st.write('\n')
 
 st.write('Created by Jayavibhav N K')
-
-st.write("Based on a paper by Jayavibhav NK and Dharshan A N")
