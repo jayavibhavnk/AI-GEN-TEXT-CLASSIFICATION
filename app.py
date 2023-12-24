@@ -13,7 +13,7 @@ user_text = st.text_area("Enter your text here:")
 # Dropdown menu for model selection
 model_option = st.selectbox("Select AI Model:", ["BERT", "DistilBERT", "RoBERTa", "DeBERTa", "MPNet"])
 
-# Create a function to check if the text is AI-generated
+# Create a function to check if your text is AI-generated
 
 def is_ai_generated(text, model):
     model_dict = {"BERT":"bert-classification-10ksamples", 
